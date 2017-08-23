@@ -57,7 +57,7 @@ def make_truck(row):
     carrying  = row[5]
 
 
-def make_truck(row):
+def make_spec_machine(row):
     brand = row[1]
     passenger_seats_count = row[2]
     photo_file_name = row[3]
