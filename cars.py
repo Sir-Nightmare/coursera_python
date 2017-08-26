@@ -45,27 +45,30 @@ class SpecMachine(CarBase):
 
 def make_car(row):
     brand = row[1]
-    passenger_seats_count = row[2]
+    passenger_seats_count = int(row[2])
     photo_file_name = row[3]
-    carrying  = row[5]
+    carrying = row[5]
+    return Car(brand, passenger_seats_count, photo_file_name, carrying)
 
 
 def make_truck(row):
     brand = row[1]
-    passenger_seats_count = row[2]
     photo_file_name = row[3]
-    carrying  = row[5]
+    body_whl = row[4]
+    carrying = row[5]
+    return Truck(brand, photo_file_name, body_whl, carrying)
 
 
 def make_spec_machine(row):
     brand = row[1]
-    passenger_seats_count = row[2]
     photo_file_name = row[3]
     carrying = row[5]
-    extra  = row[6]
+    extra = row[6]
+    return SpecMachine(brand, photo_file_name, carrying, extra)
 
 
 def get_car_list(csv_filename):
+    car_make_dict = {'car': make_car, 'truck': make_truck, 'spec_machine': make_spec_machine}
     car_list = []
 
     with open(csv_filename) as csv_fd:
@@ -73,11 +76,12 @@ def get_car_list(csv_filename):
         next(reader)
         for row in reader:
             try:
-                pass
-            except:
+                car_list.append(car_make_dict[row[0]](row))
+            except (KeyError, IndexError, ValueError):
                 pass
         return car_list
 
 
 if __name__ == '__main__':
-    print(get_car_list('cars.csv'))
+    car_list = get_car_list('cars.csv')
+    print(car_list[1].get_body_volume())
